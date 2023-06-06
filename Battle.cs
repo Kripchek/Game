@@ -4,38 +4,37 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace ConsoleApp2
 {
 
 
     public class Battle
     {
-
-        Player Thief = new Player("Вор", 100, 10, 15, 75, 1, 0, 0);
-        Player Wizard = new Player("Маг", 75, 5, 5, 125, 1, 0, 0);
-        Player Knight = new Player("Рыцарь", 125, 15, 25, 50, 1, 0, 0);
+        
+    
         Slime slimeblue = new Slime(20, 2, 5, 1, 213);
         Slime slimered = new Slime(40, 10, 9, 2, 354);
 
         public void Battlechek()
         {
-            ConsoleKeyInfo cki;
+            ChoiseHero();
+            ConsoleKeyInfo selectfight;
+            
             Console.WriteLine("с каким монстром вы хотите драться : 1 - синий слайм, 2 - красный слайм");
             while (true)
             {
 
-                cki = Console.ReadKey();
+                selectfight = Console.ReadKey();
                 Console.Write(" --- You pressed ");
-                Console.WriteLine(cki.Key.ToString());
-                if (cki.Key == ConsoleKey.D1 || cki.Key == ConsoleKey.D2)
+                Console.WriteLine(selectfight.Key.ToString());
+                if (selectfight.Key == ConsoleKey.D1 || selectfight.Key == ConsoleKey.D2)
                 {
                     Console.WriteLine("привет");
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("ебалай тебя просили выбрать с кем ты будешь драться ");
+                    Console.WriteLine("дурачек тебя просили выбрать с кем ты будешь драться ");
                 }
 
             }
@@ -44,36 +43,83 @@ namespace ConsoleApp2
            Console.Clear();
             
           
-            if (cki.Key == ConsoleKey.D1)
+            if (selectfight.Key == ConsoleKey.D1)
             {
                 Console.WriteLine("вы начали бой с синим слаймом");
                 InfiniteBattle(slimeblue.Damage, slimeblue.Def, slimeblue.Health, slimeblue.Gold);
             }
-            else if (cki.Key == ConsoleKey.D2)
+            else if (selectfight.Key == ConsoleKey.D2)
             {
                 Console.WriteLine("вы начали бой с красным слаймом");
                 InfiniteBattle(slimered.Damage, slimered.Def, slimered.Health, slimered.Gold);
             }
         }
+        void ChoiseHero()
+        {
+            ConsoleKeyInfo choisehero;
+            Console.WriteLine("Введите имя вашего героя");
+            
+            string heroname = Console.ReadLine();
+            if (heroname == "" || heroname == " ")
+            {
+                Console.WriteLine("Введите имя вашего героя ( нельзя чтобы было пустым)");
+            heroname = Console.ReadLine();
+            if (heroname == "" || heroname == " ")
+                {
+                    Console.WriteLine("Отныне имя вашего героя Player");
+                    heroname = "Player";
+                }
+            }
+            InfoAboutHero();
+            while (true)
+            {
+                choisehero = Console.ReadKey();
+                Console.Write(" --- You pressed ");
+                Console.WriteLine(choisehero.Key.ToString());
+                if (choisehero.Key == ConsoleKey.D1 )
+                {
+                    Knight knight = new Knight(heroname, "Рыцарь", 125, 15, 25, 50, 1, 0, 0);
+                    break;
+                }
+                else if (choisehero.Key == ConsoleKey.D2)
+                {
+                    Wizard wizard = new Wizard(heroname, "Маг", 75, 5, 5, 125, 1, 0, 0);
+                    break;
+                }
+                else if (choisehero.Key == ConsoleKey.D3) 
+                {
+                    Thief thief = new Thief(heroname, "Вор", 100, 10, 15, 75, 1, 0, 0);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine(" Выберите Класс Героя ");
+                }
+            }
+          
+           
+            
+        }
+        void InfoAboutHero()
+        {
+            Console.WriteLine("1.Рыцарь \n   Здоровье -- 125  |  Атака -- 15  |  Защита -- 25  |  Мана -- 25\n\n");
+            Console.WriteLine("2.Маг \n  Здоровье -- 125  |  Атака -- 15  |  Защита -- 25  |  Мана -- 125\n\n");
+            Console.WriteLine("3.Вор \n Здоровье -- 100  |  Атака -- 10  |  Защита -- 15  |  Мана -- 75\n\n");
+        }
 
-        void InfiniteBattle(double mdmg, double mdef, double Monsterhp, int goldmonster)
+        void InfiniteBattle(double playerhp, double mpp, double pdmg, double pdef, int goldplayer,double mdmg, double mdef, double Monsterhp, int goldmonster)
         {
             Console.WriteLine("параметры игрока (40 хп -- 16 атак -- 12 защита )");
             Console.WriteLine($"параметры монстра ({Monsterhp} хп -- {mdmg} атакa -- {mdef} защита )");
             Console.WriteLine($"золото которые вы получите после убийства монстра = {goldmonster}");
-            double mpp = 30;
-            double pdmg = 16;
-            double pdef = 12;
             double toPdmg = mdmg / pdef;
             double toMdmg = pdmg / mdef;
             double tohilP = 4;
-            double Playerhp = 40;
-            int goldplayer = 0;
 
 
             while (true)
             {
-                while (Playerhp > 0 && Monsterhp > 0)
+                while (playerhp > 0 && Monsterhp > 0)
                 {
                     Console.WriteLine("==================================");
                     Console.WriteLine("новый ход");
@@ -104,8 +150,8 @@ namespace ConsoleApp2
                             Console.WriteLine("Монстр вам нанес: " + toPdmg);
                             Console.WriteLine("__________________");
                             Console.WriteLine("Здоровье игрока");
-                            Playerhp -= toPdmg;
-                            Console.WriteLine(Playerhp);
+                            playerhp -= toPdmg;
+                            Console.WriteLine(playerhp);
 
 
                             break;
@@ -130,8 +176,8 @@ namespace ConsoleApp2
                                     Console.WriteLine("Монстр вам нанес: " + toPdmg);
                                     Console.WriteLine("______");
                                     Console.WriteLine("Здоровье игрока");
-                                    Playerhp -= toPdmg;
-                                    Console.WriteLine(Playerhp);
+                                    playerhp -= toPdmg;
+                                    Console.WriteLine(playerhp);
                                     Console.WriteLine("Мана персонажа: " + mpp);
                                     Console.WriteLine("__________________");
                                     break;
@@ -145,16 +191,16 @@ namespace ConsoleApp2
                                     Console.WriteLine("Здоровье Монстров");
                                     Monsterhp -= 2;
                                     Console.WriteLine(Monsterhp);
-                                    Playerhp += 2;
+                                    playerhp += 2;
                                     Console.WriteLine("______");
                                     Console.WriteLine("Здоровье персонажа вылечено на: 2");
-                                    Console.WriteLine("Здоровье персонажа: " + Playerhp);
+                                    Console.WriteLine("Здоровье персонажа: " + playerhp);
                                     Console.WriteLine("______");
                                     Console.WriteLine("Монстр вам нанес: " + toPdmg);
                                     Console.WriteLine("______");
                                     Console.WriteLine("Здоровье игрока");
-                                    Playerhp -= toPdmg;
-                                    Console.WriteLine(Playerhp);
+                                    playerhp -= toPdmg;
+                                    Console.WriteLine(playerhp);
                                     Console.WriteLine("Мана персонажа: " + mpp);
                                     Console.WriteLine("__________________");
                                     break;
@@ -173,8 +219,8 @@ namespace ConsoleApp2
                                     Console.WriteLine("Монстр вам нанес: " + toPdmg);
                                     Console.WriteLine("______");
                                     Console.WriteLine("Здоровье игрока");
-                                    Playerhp -= toPdmg;
-                                    Console.WriteLine(Playerhp);
+                                    playerhp -= toPdmg;
+                                    Console.WriteLine(playerhp);
                                     Console.WriteLine("Мана персонажа: " + mpp);
                                     Console.WriteLine("__________________");
                                     break;
@@ -189,7 +235,7 @@ namespace ConsoleApp2
                                     Monsterhp -= 3;
                                     Console.WriteLine(Monsterhp);
                                     Console.WriteLine("Здоровье игрока");
-                                    Console.WriteLine(Playerhp);
+                                    Console.WriteLine(playerhp);
                                     Console.WriteLine("Мана персонажа: " + mpp);
                                     Console.WriteLine("__________________");
                                     break;
@@ -204,7 +250,7 @@ namespace ConsoleApp2
                                     Monsterhp -= 30;
                                     Console.WriteLine(Monsterhp);
                                     Console.WriteLine("Здоровье игрока");
-                                    Console.WriteLine(Playerhp);
+                                    Console.WriteLine(playerhp);
                                     Console.WriteLine("Мана персонажа: " + mpp);
                                     Console.WriteLine("__________________");
                                     break;
@@ -213,16 +259,16 @@ namespace ConsoleApp2
                         case 3:
                             Console.WriteLine("__________________");
                             Console.WriteLine("вы использовали лечение");
-                            Playerhp += tohilP;
+                            playerhp += tohilP;
                             Console.WriteLine("______");
                             Console.WriteLine("Здоровье персонажа вылечено на: " + tohilP);
                             Console.WriteLine("______");
-                            Console.WriteLine("Здоровье персонажа: " + Playerhp);
+                            Console.WriteLine("Здоровье персонажа: " + playerhp);
                             Console.WriteLine("______");
                             Console.WriteLine("Монстр вам нанес: " + toPdmg);
-                            Playerhp -= toPdmg;
+                            playerhp -= toPdmg;
                             Console.WriteLine("______");
-                            Console.WriteLine("Здоровье персонажа: " + Playerhp);
+                            Console.WriteLine("Здоровье персонажа: " + playerhp);
                             Console.WriteLine("__________________");
                             break;
                     }
@@ -263,7 +309,7 @@ namespace ConsoleApp2
             }
 
             Console.WriteLine("Итоги битвы:");
-            Console.WriteLine("Здоровье оставшееся у Игрока: " + Playerhp);
+            Console.WriteLine("Здоровье оставшееся у Игрока: " + playerhp);
             Console.WriteLine("Здоровье оставшееся у Монстра " + Monsterhp);
             Console.WriteLine("Урон нанесеный Игроком: " + "хуета");
             Console.WriteLine("Урон нанесеный Монстром: " + "хуетах2");

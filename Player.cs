@@ -4,14 +4,13 @@ public class Player
 {
     private string _name;
     private double _health;
-    private int _damage;
-    private int _defense;
-    private int _mana;
+    private double _damage;
+    private double _defense;
+    private double _mana;
     private double _experience;
     private int _lvl;
     private int _gold;
-    public int _idcharcter;
-    static public int _iddcharcter = 1;
+
 
     public Player(string name, double health, int damage, int defense, int mana, int lvl, double experience, int gold)
     {
@@ -22,7 +21,7 @@ public class Player
         _mana = mana;
         _lvl = lvl;
         _gold = gold;
-        _idcharcter = _iddcharcter++;
+   
     }
 
     public string Name
@@ -31,19 +30,19 @@ public class Player
         set => _name = value;
     }
 
-    public int Damage
+    public double Damage
     {
         get => _damage;
         set => _damage = value;
     }
 
-    public int Defense
+    public double Defense
     {
         get => _defense;
         set => _defense = value;
     }
 
-    public int Mana
+    public double Mana
     {
         get => _mana;
         set => _mana = value;
