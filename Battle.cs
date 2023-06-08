@@ -10,8 +10,8 @@ namespace ConsoleApp2
 
     public class Battle
     {
-        
-    
+        Knight knight = new(PlayerChoiseName(), "Рыцарь", 125, 15, 25, 50, 1, 0, 0);
+
         Slime slimeblue = new Slime(20, 2, 5, 1, 213);
         Slime slimered = new Slime(40, 10, 9, 2, 354);
 
@@ -54,6 +54,23 @@ namespace ConsoleApp2
                 InfiniteBattle(slimered.Damage, slimered.Def, slimered.Health, slimered.Gold);
             }
         }
+
+        static string PlayerChoiseName()
+        {
+            ConsoleKeyInfo choisehero;
+            Console.WriteLine("Введите имя вашего героя");
+
+            string? heroname = Console.ReadLine();
+
+            if (heroname == "" || heroname == " ")
+            {
+                return "try again";
+            }
+            return heroname;
+
+
+        }
+
         void ChoiseHero()
         {
             ConsoleKeyInfo choisehero;
@@ -70,6 +87,7 @@ namespace ConsoleApp2
                     heroname = "Player";
                 }
             }
+
             InfoAboutHero();
             while (true)
             {
@@ -78,17 +96,32 @@ namespace ConsoleApp2
                 Console.WriteLine(choisehero.Key.ToString());
                 if (choisehero.Key == ConsoleKey.D1 )
                 {
-                    Knight knight = new Knight(heroname, "Рыцарь", 125, 15, 25, 50, 1, 0, 0);
+                   
+                    double playerhp = knight.Health;
+                    double mpp = knight.Mana;
+                    double pdmg = knight.Damage;
+                    double pdef = knight.Defense;
+                    double goldplayer = knight.Gold;
                     break;
                 }
                 else if (choisehero.Key == ConsoleKey.D2)
                 {
                     Wizard wizard = new Wizard(heroname, "Маг", 75, 5, 5, 125, 1, 0, 0);
+                    double playerhp = wizard.Health;
+                    double mpp = wizard.Mana;
+                    double pdmg = wizard.Damage;
+                    double pdef = wizard.Defense;
+                    double goldplayer = wizard.Gold;
                     break;
                 }
                 else if (choisehero.Key == ConsoleKey.D3) 
                 {
                     Thief thief = new Thief(heroname, "Вор", 100, 10, 15, 75, 1, 0, 0);
+                    double playerhp = thief.Health;
+                    double mpp = thief.Mana;
+                    double pdmg = thief.Damage;
+                    double pdef = thief.Defense;
+                    double goldplayer = thief.Gold;
                     break;
                 }
                 else
@@ -96,8 +129,8 @@ namespace ConsoleApp2
                     Console.WriteLine(" Выберите Класс Героя ");
                 }
             }
-          
-           
+    
+       
             
         }
         void InfoAboutHero()
@@ -107,20 +140,26 @@ namespace ConsoleApp2
             Console.WriteLine("3.Вор \n Здоровье -- 100  |  Атака -- 10  |  Защита -- 15  |  Мана -- 75\n\n");
         }
 
-        void InfiniteBattle(double playerhp, double mpp, double pdmg, double pdef, int goldplayer,double mdmg, double mdef, double Monsterhp, int goldmonster)
+        void InfiniteBattle(double mdmg, double mdef, double Monsterhp, int goldmonster)
         {
-            Console.WriteLine("параметры игрока (40 хп -- 16 атак -- 12 защита )");
+            Console.WriteLine($"параметры игрока (40 хп -- 18 атак -- 12 защита )");
             Console.WriteLine($"параметры монстра ({Monsterhp} хп -- {mdmg} атакa -- {mdef} защита )");
             Console.WriteLine($"золото которые вы получите после убийства монстра = {goldmonster}");
+            double playerhp = 40;
+            double mpp = 30;
+            double pdmg = 18;
+            double pdef = 12;
+            int goldplayer = 0;
             double toPdmg = mdmg / pdef;
             double toMdmg = pdmg / mdef;
             double tohilP = 4;
-
+            int s = 1; 
 
             while (true)
             {
                 while (playerhp > 0 && Monsterhp > 0)
                 {
+           
                     Console.WriteLine("==================================");
                     Console.WriteLine("новый ход");
                     Console.WriteLine("__________________");
@@ -272,6 +311,7 @@ namespace ConsoleApp2
                             Console.WriteLine("__________________");
                             break;
                     }
+
 
                     Console.WriteLine("==================================");
                 }

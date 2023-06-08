@@ -16,9 +16,8 @@
                 new("chto-to8", 1),
             };
 
-            Battle battle = new Battle();
-            battle.Battlechek();
-
+          
+         
             void Test1()
             {
                 Console.WriteLine("список ваших предметов");
