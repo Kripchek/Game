@@ -10,6 +10,36 @@ namespace ConsoleApp2
 
     public class Battle
     {
+        List<Inventory> inventory = new List<Inventory>()
+            {
+                new("что-то",2),
+
+            };
+
+
+        List<ExploreItems> explitem = new List<ExploreItems>()
+            {
+                 new("зелька здоровья"),
+                 new("хавчик +2к к ЧСВ"),
+                 new("зелька ''быстрые ноги люлей не получат''"),
+                 new("хавчик +2 к шансу упасть"),
+                 new("зелька прыгучисти"),
+                 new("хавчик3"),
+                 new("зелька4"),
+                 new("хавчик4"),
+                 new("зелька5"),
+                 new("хавчик5"),
+
+            };
+        List<Shop> shops = new List<Shop>()
+        {
+            new("палочка гавнодава",24),
+            new("сапоги людоеды", 600),
+            new("Носки пчеловода",2500),
+        
+        };
+        Random explorerand = new Random();
+        Random amountrand = new Random();
         Knight knight = new(PlayerChoiseName(), "Рыцарь", 125, 15, 25, 50, 1, 0, 0);
 
         Slime slimeblue = new Slime(20, 2, 5, 1, 213);
@@ -385,6 +415,7 @@ namespace ConsoleApp2
                     Console.WriteLine("__________________");
                     Console.WriteLine(Monsterhp);
 
+                    
                     int modescroll = int.Parse(Console.ReadLine());
                     switch (modescroll)
                     {
@@ -500,7 +531,7 @@ namespace ConsoleApp2
                                     Console.WriteLine("вы оглушили врага и нанесли ему 30 ед.урона");
                                     Console.WriteLine("______");
                                     Console.WriteLine("Здоровье Монстров");
-                                    Monsterhp -= 30;
+                                    Monsterhp -= 500;
                                     Console.WriteLine(Monsterhp);
                                     Console.WriteLine("Здоровье игрока");
                                     Console.WriteLine(playerhp);
@@ -531,45 +562,141 @@ namespace ConsoleApp2
                 }
 
 
-                Console.WriteLine("вы хотите начать бой заного? (Y/N)");
-                string userInput = Console.ReadLine();
 
-                if (userInput == "y")
+                if (playerhp <= 0)
                 {
-                    Console.WriteLine("Бой был перезапущен");
-                    continue;
-                }
-                else if (userInput == "n")
-                {
-                    Console.WriteLine("бой окончен");
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Вы ввели некорректное значение");
-                    Console.WriteLine("вы хотите вернуться к выбору? (y/n)");
-                    string c = (Console.ReadLine());
-                    if (c == "y")
+                    Console.WriteLine("Вы проиграли, хотите перезапустить бой?");
+
+                    string userInput = Console.ReadLine();
+
+                    if (userInput == "y")
                     {
-                        Console.Clear();
+                        Console.WriteLine("Бой был перезапущен");
+
                         continue;
+                    }
+                    else if (userInput == "n")
+                    {
+                        Console.WriteLine("бой окончен");
+
+                        Environment.Exit(0);
                     }
                     else
                     {
+                        Console.WriteLine("Вы ввели некорректное значение");
+                        Console.WriteLine("вы хотите вернуться к выбору? (y/n)");
+                        string c = (Console.ReadLine());
+                        if (c == "y")
+                        {
+                            Console.Clear();
+                            continue;
+                        }
+                        else
+                        {
+                            Environment.Exit(0);
+
+                        }
+                    }
+                }
+                else if (Monsterhp <= 0)
+                {
+                    Console.WriteLine("Итоги битвы:");
+                    Console.WriteLine("Здоровье оставшееся у Игрока: " + playerhp);
+                    Console.WriteLine("Здоровье оставшееся у Монстра " + Monsterhp);
+                    Console.WriteLine("Урон нанесеный Игроком: " + "хуета");
+                    Console.WriteLine("Урон нанесеный Монстром: " + "хуетах2");
+
+                    goldplayer += goldmonster;
+                    Console.WriteLine($"У вас {goldplayer} золота");
+                    Console.WriteLine("чтобы продолжить нажмите любую кнопку");
+                    Console.ReadKey();
+                    Console.Clear();
+                    break;
+                }
+            }
+
+            
+        }
+
+      public void Test1()
+        {
+            Console.WriteLine("список ваших предметов");
+            foreach (var invent in inventory)
+            {
+                Console.WriteLine($"{invent._id}, {invent.Name}, {invent.Count}");
+            }
+            Console.WriteLine("\n\n");
+        }
+
+      public  void TestAddItem(string item, int amount)
+        {
+            Console.WriteLine($"вам выпал {item} в количестве {amount}. вы хотите его добавить в свой инвентарь? (Y)es/(N)o");
+            string choiseadditem = Console.ReadLine();
+            if (choiseadditem == "Y" || choiseadditem == "y" || choiseadditem == "У" || choiseadditem == "у")
+            {
+                if (inventory.Count < inventory.Capacity)
+                {
+                    inventory.Add(new(item, amount));
+                }
+                else
+                {
+                    Console.WriteLine("у вас нет места в инвентаре");
+                }
+            }
+            else if (choiseadditem == "N" || choiseadditem == "n")
+            {
+                Console.WriteLine("Правильно, нахер этот предмет нужен :3");
+            }
+        }
+
+       public void Test2()
+        {
+            Console.WriteLine("напишите номер предмета(id) который вы хотите выкинуть:");
+            int x = int.Parse(Console.ReadLine());
+            foreach (var invent in inventory)
+            {
+                if (invent._id == x)
+                {
+                    Console.WriteLine("вы хотите выкинуть все предметы(dropall) или только один(drop)");
+                    string choisedrop = Console.ReadLine();
+                    if (choisedrop == "dropall")
+                    {
+                        inventory.Remove(invent);
+                        break;
+                    }
+                    else if (choisedrop == "drop")
+                    {
+                        invent.Count -= 1;
                         break;
                     }
                 }
-
             }
+        }
 
-            Console.WriteLine("Итоги битвы:");
-            Console.WriteLine("Здоровье оставшееся у Игрока: " + playerhp);
-            Console.WriteLine("Здоровье оставшееся у Монстра " + Monsterhp);
-            Console.WriteLine("Урон нанесеный Игроком: " + "хуета");
-            Console.WriteLine("Урон нанесеный Монстром: " + "хуетах2");
-            goldplayer += goldmonster;
-            Console.WriteLine($"У вас {goldplayer} золота");
-            Console.ReadKey();
+       public void Explore()
+        {
+            int kkk = 0;
+            int amount = amountrand.Next(1, 6);
+            Console.WriteLine("Вы пробуете поискать в округе что-нибудь полезное");
+            int explrand = explorerand.Next(0, 15);
+            foreach (var exitem in explitem)
+            {
+                if (explrand == exitem._id)
+                {
+                    TestAddItem(exitem.Name, amount);
+                    kkk++;
+                }
+            }
+            if (kkk == 0)
+            {
+                Console.WriteLine("Ничего полезного");
+            }
+        }
+
+        public void Shop()
+        {
+
         }
     }
+
 }

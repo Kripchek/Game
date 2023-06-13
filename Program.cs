@@ -12,31 +12,7 @@ namespace ConsoleApp2
     {
         public static void Main(string[] args)
         {
-            List<Inventory> inventory = new List<Inventory>()
-            {
-                new("что-то",2),
-            };
-
-            
-            List<ExploreItems> explitem = new List<ExploreItems>()
-            {
-                 new("зелька здоровья"),
-                 new("хавчик +2к к ЧСВ"),
-                 new("зелька ''быстрые ноги люлей не получат''"),
-                 new("хавчик +2 к шансу упасть"),
-                 new("зелька прыгучисти"),
-                 new("хавчик3"),
-                 new("зелька4"),
-                 new("хавчик4"),
-                 new("зелька5"),
-                 new("хавчик5"),
-
-
-            };
             Slime slimeking = new Slime(500, 25, 20, 10, 2512);
-
-            Random explorerand = new Random();
-            Random amountrand = new Random();
             Random random = new Random();
             ConsoleKeyInfo kodravi;
             Battle battle = new Battle();
@@ -49,21 +25,21 @@ namespace ConsoleApp2
                 Console.WriteLine(kodravi.Key.ToString());
                 if (kodravi.Key == ConsoleKey.D1)
                 {
-                    Test1();
+                    battle.Test1();
                     Console.WriteLine("\n Нажмите любую кнопку чтобы продолжить");
                     Console.ReadKey();
                     Console.Clear();
                 }
                 else if (kodravi.Key == ConsoleKey.D2) 
                 {
-                Test2();
+                battle.Test2();
                     Console.WriteLine("\n Нажмите любую кнопку чтобы продолжить");
                     Console.ReadKey();
                     Console.Clear();
                 }
                 else if (kodravi.Key == ConsoleKey.D3)
                 {
-                    Explore();
+                   battle.Explore();
                     Console.WriteLine("\n Нажмите любую кнопку чтобы продолжить");
                     Console.ReadKey();
                     Console.Clear();
@@ -106,80 +82,7 @@ namespace ConsoleApp2
 
 
 
-            void Test1()
-            {
-                Console.WriteLine("список ваших предметов");
-                foreach (var invent in inventory)
-                {
-                    Console.WriteLine($"{invent._id}, {invent.Name}, {invent.Count}");
-                }
-                Console.WriteLine("\n\n");
-            }
-
-            void TestAddItem(string item, int amount)
-            {
-                Console.WriteLine($"вам выпал {item} в количестве {amount}. вы хотите его добавить в свой инвентарь? (Y)es/(N)o");
-                string choiseadditem = Console.ReadLine();
-                if (choiseadditem == "Y" || choiseadditem == "y" || choiseadditem == "У" || choiseadditem == "у")
-                {
-                    if (inventory.Count < inventory.Capacity)
-                    {
-                        inventory.Add(new(item, amount));
-                    }
-                    else
-                    {
-                        Console.WriteLine("у вас нет места в инвентаре");
-                    }
-                }
-                else if (choiseadditem == "N" || choiseadditem == "n")
-                {
-                    Console.WriteLine("Правильно, нахер этот предмет нужен :3");
-                }
-            }
-
-            void Test2()
-            {
-                Console.WriteLine("напишите номер предмета(id) который вы хотите выкинуть:");
-                int x = int.Parse(Console.ReadLine());
-                foreach (var invent in inventory)
-                {
-                    if (invent._id == x)
-                    {
-                        Console.WriteLine("вы хотите выкинуть все предметы(dropall) или только один(drop)");
-                        string choisedrop = Console.ReadLine();
-                        if (choisedrop == "dropall")
-                        {
-                            inventory.Remove(invent);
-                            break;
-                        }
-                        else if (choisedrop == "drop")
-                        {
-                            invent.Count -= 1;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            void Explore()
-            {
-                int kkk = 0;
-                int amount = amountrand.Next(1, 6);
-                Console.WriteLine("Вы пробуете поискать в округе что-нибудь полезное");
-                int explrand = explorerand.Next(0, 15);
-                foreach (var exitem in explitem)
-                {
-                    if (explrand == exitem._id)
-                    {
-                        TestAddItem(exitem.Name, amount);
-                        kkk++;
-                    }
-                }
-                if (kkk == 0)
-                {
-                    Console.WriteLine("Ничего полезного");
-                }
-            }
+          
         }
     }
 }
